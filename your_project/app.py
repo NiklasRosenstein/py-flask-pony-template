@@ -1,7 +1,7 @@
 import flask
 from . import config
 
-app = flask.Flask(__name__split('.')[0])
+app = flask.Flask(__name__.split('.')[0])
 
 from . import models, views
 
