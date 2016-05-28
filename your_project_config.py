@@ -1,15 +1,24 @@
-import os
+from os import path, environ
 
-deploy_dir = os.getenv('CRAFTR_FARM_DEPLOYMENT_DIR', '')
-if not deploy_dir:
-  deploy_dir = os.path.join(os.path.dirname(__file__), '.devdeploy')
-if not os.path.isdir(deploy_dir):
-  os.makedirs(deploy_dir)
+# Wherever an encoding is needed, this configuration value is used.
+ENCODING = 'utf8'
 
-db_kind = 'sqlite'
-db_config = {
-  'sqlite': {
-    'filename': os.path.join(deploy_dir, 'test_db.sqlite'),
-    'create_db': True,
-  },
+# Credentials of the root user. Will be created/updated automatically.
+# There can only be one root user at a time.
+ROOT_USER = {
+  'name': 'root',
+  'password': 'alpine',
+  'email': 'admin@example.org',
+}
+
+# Deployment directory for data files.
+DEPLOY_DIR = environ.get('CRAFTR_WEB_DEPLOY_DIR')
+if not DEPLOY_DIR:
+  DEPLOY_DIR = path.join(path.dirname(__file__), '_deploy_test')
+
+# Database configuration. These parameters are passed directly to db.bind().
+DB_PROVIDER = 'sqlite'
+DB_CONFIG = {
+  'filename': path.join(DEPLOY_DIR, 'test_db.sqlite'),
+  'create_db': True,
 }
